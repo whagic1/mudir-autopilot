@@ -1,13 +1,27 @@
 name: Mudir Autopilot
 on:
   schedule:
-    - cron: "0 15 * * 2,4,6"   # Tue/Thu/Sat 18:00 Kuwait — one post each run
+    - cron: "0 15 * * 2,4,6"   # Tue/Thu/Sat 18:00 Kuwait
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
-  post:
+  prepare:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Preview next post
+        env:
+          RAW_BASE_URL: ${{ secrets.RAW_BASE_URL }}
+        run: python preview.py
+
+  publish:
+    needs: prepare
+    runs-on: ubuntu-latest
+    environment: instagram   # <-- requires your manual approval before it runs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
