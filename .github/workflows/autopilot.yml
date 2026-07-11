@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 jobs:
-  prepare:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,16 +17,6 @@ jobs:
         env:
           RAW_BASE_URL: ${{ secrets.RAW_BASE_URL }}
         run: python preview.py
-
-  publish:
-    needs: prepare
-    runs-on: ubuntu-latest
-    environment: instagram   # <-- requires your manual approval before it runs
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
       - name: Publish next post
         env:
           IG_USER_ID:      ${{ secrets.IG_USER_ID }}
