@@ -1,7 +1,7 @@
 name: Mudir Autopilot
 on:
   schedule:
-    - cron: "0 15 * * 2,4,6"   # Tue/Thu/Sat 18:00 Kuwait
+    - cron: "0 15 * * *"   # daily 18:00 Kuwait
   workflow_dispatch:
 permissions:
   contents: write
